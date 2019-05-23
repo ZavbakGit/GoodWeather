@@ -6,7 +6,7 @@ import com.anit.goodweather.R
 class AboutFragment: BaseFragment(){
 
     companion object {
-        val TAG = "AboutFragment"
+        const val TAG = "AboutFragment"
         fun newInstance() = AboutFragment()
     }
 

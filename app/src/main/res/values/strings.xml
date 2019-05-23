@@ -8,4 +8,8 @@
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
     <string name="action_add">Add</string>
+    <string name="text_about">О разработчике</string>
+    <string name="text_button_send">Send</string>
+    <string name="hint_message">Message</string>
+    <string name="text_weather">Weather</string>
 </resources>
