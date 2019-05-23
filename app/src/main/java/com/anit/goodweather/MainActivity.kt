@@ -1,5 +1,6 @@
 package com.anit.goodweather
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.design.widget.Snackbar
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -43,7 +45,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onStart() {
         super.onStart()
         router.startWeather()
-        onNavigationItemSelected(nav_view.menu.getItem(1))
+        //Устанавливаем на первое меню
+        onNavigationItemSelected(nav_view.menu.getItem(0))
     }
 
     override fun onBackPressed() {
@@ -92,16 +95,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+
+    @SuppressLint("RestrictedApi")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_weather -> {
                 router.startWeather()
+                fab.visibility = View.VISIBLE
             }
             R.id.nav_feedback -> {
                 router.startFeedback()
+                fab.visibility = View.GONE
             }
             R.id.nav_about -> {
                 router.startAbout()
+                fab.visibility = View.GONE
             }
         }
 
