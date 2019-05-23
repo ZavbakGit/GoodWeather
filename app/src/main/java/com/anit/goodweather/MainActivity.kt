@@ -46,7 +46,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onStart()
         router.startWeather()
         //Устанавливаем на первое меню
-        onNavigationItemSelected(nav_view.menu.getItem(0))
+        nav_view.setCheckedItem(nav_view.menu.getItem(0))
+        //onNavigationItemSelected(nav_view.menu.getItem(0))
     }
 
     override fun onBackPressed() {
