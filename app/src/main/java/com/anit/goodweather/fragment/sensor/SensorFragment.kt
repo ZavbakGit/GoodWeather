@@ -1,12 +1,10 @@
 package com.anit.goodweather.fragment.sensor
 
 
-import android.content.Context
-import android.hardware.SensorManager
 import android.os.Bundle
-import android.widget.Toast
 import com.anit.goodweather.R
 import com.anit.goodweather.fragment.BaseFragment
+import kotlinx.android.synthetic.main.sensor_fragment.*
 
 
 class SensorFragment: BaseFragment(),ISensorView {
@@ -20,21 +18,30 @@ class SensorFragment: BaseFragment(),ISensorView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        presenter = SensorPresenter(
-            sensorManager = (activity!!.getSystemService(Context.SENSOR_SERVICE) as SensorManager?)!!,
+        this.presenter = SensorPresenter(
             lifecycle = lifecycle,
             sensorView = this
         )
+
     }
 
     override fun getLayout() = R.layout.sensor_fragment
 
-    override fun showTemperature(str: String) {
-        Toast.makeText(activity,str,Toast.LENGTH_SHORT).show()
+    override fun showTemperature(nameSensor:String,data: String) {
+        (sen_view_light as CustomSensorView).setSensorName(nameSensor)
+        (sen_view_light as CustomSensorView).setSensorData(data)
     }
 
-    override fun showHumidity(str: String) {
-        Toast.makeText(activity,str,Toast.LENGTH_SHORT).show()
+    override fun showHumidity(nameSensor:String,data: String) {
+        (sen_view_humidity as CustomSensorView).setSensorName(nameSensor)
+        (sen_view_humidity as CustomSensorView).setSensorData(data)
     }
+
+    override fun showLight(nameSensor:String,data: String) {
+        (sen_view_temperature as CustomSensorView).setSensorName(nameSensor)
+        (sen_view_temperature as CustomSensorView).setSensorData(data)
+    }
+
+    override fun getContext() = activity!!
 
 }

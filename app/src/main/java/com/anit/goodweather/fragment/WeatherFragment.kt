@@ -7,7 +7,7 @@ import com.anit.goodweather.R
 class WeatherFragment: BaseFragment(), LifecycleObserver {
 
     companion object {
-        val TAG = "WeatherFragment"
+        const val TAG = "WeatherFragment"
         fun newInstance() = WeatherFragment()
     }
 

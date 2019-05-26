@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.feedback_fragment.*
 class FeedbackFragment: BaseFragment(){
 
     companion object {
-        val TAG = "FeedbackFragment"
+        const val TAG = "FeedbackFragment"
         fun newInstance() = FeedbackFragment()
     }
 

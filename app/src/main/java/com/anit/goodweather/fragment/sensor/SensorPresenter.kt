@@ -2,66 +2,92 @@ package com.anit.goodweather.fragment.sensor
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
+import android.content.Context
 import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.OnLifecycleEvent
+import com.anit.goodweather.R
 
 
 class SensorPresenter(
-    private var sensorManager: SensorManager,
-    var lifecycle: Lifecycle,
+    private val lifecycle: Lifecycle,
     private val sensorView: ISensorView
 ) : LifecycleObserver {
 
+    private val nameSensorLight =
+        sensorView.getContext().getString(R.string.light)?:""
+
+    private val nameSensorHumidity =
+        sensorView.getContext().getString(R.string.humidity)?:""
+
+    private val nameSensorTemperature =
+        sensorView.getContext().getString(R.string.temperature)?:""
+
+    private val messNotFound =
+        sensorView.getContext().getString(R.string.not_found)?:""
+
     init {
-        lifecycle.addObserver(this)
+        initSensor()
     }
 
-    private val listenerTemperature = SensorChangedListenerHandler {
-        sensorView.showTemperature("Температура: ${it.values[0]}")
-    }
+    private fun initSensor() {
 
-    private val listenerHumidity = SensorChangedListenerHandler {
-        sensorView.showHumidity("Влажность: ${it.values[0]}")
-    }
+       val  sensorManager = sensorView.getContext().
+           getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-    fun onStart(source: LifecycleOwner, event: Lifecycle.Event) {
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT) != null) {
+                SensorChangedListenerHandler(
+                sensorManager = sensorManager,
+                type = Sensor.TYPE_LIGHT,
+                lifecycle = lifecycle,
+                funSensorChanged = {
+                    sensorView.showLight(
+                        nameSensorLight, "${it.values[0]}"
+                    )
+                }
+            )
+        } else {
+            sensorView.showLight(
+                nameSensorLight, messNotFound
+            )
+        }
 
-        when (event) {
-            Lifecycle.Event.ON_START -> {
-                sensorManager.registerListener(
-                    listenerTemperature,
-                    sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE),
-                    SensorManager.SENSOR_DELAY_NORMAL
-                )
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY) != null) {
+                SensorChangedListenerHandler(
+                sensorManager = sensorManager,
+                type = Sensor.TYPE_RELATIVE_HUMIDITY,
+                lifecycle = lifecycle,
+                funSensorChanged = {
+                    sensorView.showHumidity(
+                        nameSensorHumidity, "${it.values[0]}"
+                    )
+                }
+            )
+        } else {
+            sensorView.showHumidity(
+                nameSensorHumidity, messNotFound
+            )
+        }
 
-                sensorManager.registerListener(
-                    listenerHumidity,
-                    sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY),
-                    SensorManager.SENSOR_DELAY_NORMAL
-                )
-
-            }
-            Lifecycle.Event.ON_STOP -> {
-                sensorManager.unregisterListener(listenerTemperature)
-                sensorManager.unregisterListener(listenerHumidity)
-            }
-            else -> {}
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE) != null) {
+                SensorChangedListenerHandler(
+                sensorManager = sensorManager,
+                type = Sensor.TYPE_AMBIENT_TEMPERATURE,
+                lifecycle = lifecycle,
+                funSensorChanged = {
+                    sensorView.showTemperature(
+                        nameSensorTemperature, "${it.values[0]}"
+                    )
+                }
+            )
+        } else {
+            sensorView.showTemperature(
+                nameSensorTemperature, messNotFound
+            )
         }
     }
 
-    class SensorChangedListenerHandler(val funSensorChanged: (event: SensorEvent) -> Unit)
-        : SensorEventListener {
-        override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
-
-        override fun onSensorChanged(event: SensorEvent) {
-            funSensorChanged(event)
-        }
-
-    }
 
 }
+
+
+

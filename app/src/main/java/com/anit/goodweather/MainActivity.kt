@@ -1,8 +1,7 @@
 package com.anit.goodweather
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.hardware.SensorManager
+
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView

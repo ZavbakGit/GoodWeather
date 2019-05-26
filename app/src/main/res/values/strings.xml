@@ -16,4 +16,11 @@
     <string name="feedback">Feedback</string>
     <string name="about">About</string>
     <string name="sensor">Sensor</string>
+    <string name="sensor_name">sensor name</string>
+    <string name="sensor_data">sensor data</string>
+    <string name="light">Light</string>
+    <string name="temperature">Temperature</string>
+    <string name="humidity">Humidity</string>
+    <string name="not_found">Not found sensor</string>
+    <string name="click_me">Click Me</string>
 </resources>
