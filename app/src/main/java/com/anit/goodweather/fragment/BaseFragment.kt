@@ -1,5 +1,6 @@
 package com.anit.goodweather.fragment
 
+import android.arch.lifecycle.LifecycleRegistryOwner
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater

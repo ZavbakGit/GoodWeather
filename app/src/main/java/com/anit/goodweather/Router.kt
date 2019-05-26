@@ -2,9 +2,17 @@ package com.anit.goodweather
 
 import com.anit.goodweather.fragment.AboutFragment
 import com.anit.goodweather.fragment.FeedbackFragment
+import com.anit.goodweather.fragment.sensor.SensorFragment
 import com.anit.goodweather.fragment.WeatherFragment
 
 class Router(private val activity: MainActivity, private val container:Int):IRouter{
+    override fun startSensor() {
+        activity.supportFragmentManager
+            .beginTransaction()
+            .replace(container, SensorFragment.newInstance(), SensorFragment.TAG)
+            .commit()
+    }
+
     override fun startAbout() {
         activity.supportFragmentManager
             .beginTransaction()

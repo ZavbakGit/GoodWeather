@@ -1,9 +1,10 @@
 package com.anit.goodweather.fragment
 
+import android.arch.lifecycle.LifecycleObserver
 import com.anit.goodweather.R
 
 
-class WeatherFragment: BaseFragment(){
+class WeatherFragment: BaseFragment(), LifecycleObserver {
 
     companion object {
         val TAG = "WeatherFragment"

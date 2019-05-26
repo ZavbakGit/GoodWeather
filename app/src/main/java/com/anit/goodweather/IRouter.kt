@@ -4,4 +4,5 @@ interface IRouter {
     fun startFeedback()
     fun startWeather()
     fun startAbout()
+    fun startSensor()
 }
