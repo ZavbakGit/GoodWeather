@@ -14,16 +14,16 @@ class SensorPresenter(
 ) : LifecycleObserver {
 
     private val nameSensorLight =
-        sensorView.getContext().getString(R.string.light)?:""
+        sensorView.getContext().getString(R.string.light) ?: ""
 
     private val nameSensorHumidity =
-        sensorView.getContext().getString(R.string.humidity)?:""
+        sensorView.getContext().getString(R.string.humidity) ?: ""
 
     private val nameSensorTemperature =
-        sensorView.getContext().getString(R.string.temperature)?:""
+        sensorView.getContext().getString(R.string.temperature) ?: ""
 
     private val messNotFound =
-        sensorView.getContext().getString(R.string.not_found)?:""
+        sensorView.getContext().getString(R.string.not_found) ?: ""
 
     init {
         initSensor()
@@ -31,11 +31,10 @@ class SensorPresenter(
 
     private fun initSensor() {
 
-       val  sensorManager = sensorView.getContext().
-           getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensorManager = sensorView.getContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
         if (sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT) != null) {
-                SensorChangedListenerHandler(
+            SensorChangedListenerHandler(
                 sensorManager = sensorManager,
                 type = Sensor.TYPE_LIGHT,
                 lifecycle = lifecycle,
@@ -52,7 +51,7 @@ class SensorPresenter(
         }
 
         if (sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY) != null) {
-                SensorChangedListenerHandler(
+            SensorChangedListenerHandler(
                 sensorManager = sensorManager,
                 type = Sensor.TYPE_RELATIVE_HUMIDITY,
                 lifecycle = lifecycle,
@@ -69,7 +68,7 @@ class SensorPresenter(
         }
 
         if (sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE) != null) {
-                SensorChangedListenerHandler(
+            SensorChangedListenerHandler(
                 sensorManager = sensorManager,
                 type = Sensor.TYPE_AMBIENT_TEMPERATURE,
                 lifecycle = lifecycle,

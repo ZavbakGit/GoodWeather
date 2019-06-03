@@ -3,7 +3,7 @@ package com.anit.goodweather
 import com.anit.goodweather.fragment.AboutFragment
 import com.anit.goodweather.fragment.FeedbackFragment
 import com.anit.goodweather.fragment.sensor.SensorFragment
-import com.anit.goodweather.fragment.WeatherFragment
+import com.anit.goodweather.fragment.weather.WeatherFragment
 
 class Router(private val activity: MainActivity, private val container:Int):IRouter{
     override fun startSensor() {

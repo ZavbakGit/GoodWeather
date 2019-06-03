@@ -23,4 +23,8 @@
     <string name="humidity">Humidity</string>
     <string name="not_found">Not found sensor</string>
     <string name="click_me">Click Me</string>
+    <string name="change">Change</string>
+    <string name="refresh">Refresh</string>
+    <string name="default_city">Khabarovsk</string>
+    <string name="city">City</string>
 </resources>
