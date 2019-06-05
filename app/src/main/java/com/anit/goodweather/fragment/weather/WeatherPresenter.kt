@@ -1,45 +1,63 @@
 package com.anit.goodweather.fragment.weather
 
-import android.os.Handler
+
 import android.preference.PreferenceManager
 import com.anit.goodweather.R
-import com.anit.goodweather.repository.WeatherDataLoader
+import com.anit.goodweather.repository.rest.entites.WeatherRequestRestModel
+import com.anit.goodweather.repository.rest.request.OpenWeatherRepo
 
-class WeatherPresenter(val view:IWeatherView){
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-    companion object{
+class WeatherPresenter(val view: IWeatherView) {
+
+    companion object {
         const val KEY_CITY = "pref_city"
     }
 
-    private val handler = Handler()
+    var city: String? = null
+        set(value) {
+            field = value
+            saveToPreference()
+            refreshData()
+        }
 
-    var city:String? = null
-    set(value) {
-        field = value
-        saveToPreference()
-        refreshData()
-    }
+    fun refreshData() {
 
-    fun refreshData(){
-        city?.let{
-            object : Thread() {
-                override fun run() {
-                    val jsonObject = WeatherDataLoader.getJSONData(city!!)
-                    if (jsonObject == null) {
+        OpenWeatherRepo.getInstance().api.loadWeather(
+            city ?: "",
+            "762ee61f52313fbd10a4eb54ae4d4de2",
+            "metric"
+        )
+            .enqueue(object : Callback<WeatherRequestRestModel> {
+                override fun onResponse(
+                    call: Call<WeatherRequestRestModel>,
+                    response: Response<WeatherRequestRestModel>
+                ) {
+                    if (response.body() != null && response.isSuccessful) {
+                        val model = response.body() as WeatherRequestRestModel
 
-                    } else {
+                        val info = (model.main?.temp ?: 0f).toString()
+                        view.showInfo(city!!, info + "\u2103")
 
-                        val main = jsonObject.getJSONObject("main")
-                        val currentTextText =
-                            String.format("%.2f", main.getDouble("temp")) + "\u2103"
-
-                        handler.post{
-                            view.showInfo(city!!,currentTextText)
+                        val icon = model.weather?.get(0)?.icon
+                        if (icon != null) {
+                            view.loadImage("${OpenWeatherRepo.baseUrl}img/w/$icon.png")
+                        } else {
+                            view.loadImage(null)
                         }
+                    } else {
+                        view.showInfo(city!!, "error")
+                        view.loadImage(null)
                     }
                 }
-            }.start()
-        }
+
+                override fun onFailure(call: Call<WeatherRequestRestModel>, t: Throwable) {
+                    view.showInfo(city!!, "error")
+                    view.loadImage(null)
+                }
+            })
 
     }
 

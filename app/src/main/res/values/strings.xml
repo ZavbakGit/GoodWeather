@@ -27,4 +27,6 @@
     <string name="refresh">Refresh</string>
     <string name="default_city">Khabarovsk</string>
     <string name="city">City</string>
+    <string name="error">Error</string>
+    <string name="icon">icon</string>
 </resources>

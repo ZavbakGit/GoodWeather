@@ -4,8 +4,8 @@ package com.anit.goodweather.fragment.weather
 import android.content.Context
 import com.anit.goodweather.R
 import com.anit.goodweather.fragment.BaseFragment
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.weather_fragment.*
-
 
 class WeatherFragment : BaseFragment(), IWeatherView {
 
@@ -25,11 +25,9 @@ class WeatherFragment : BaseFragment(), IWeatherView {
                 edCity.text.clear()
             }
         }
-
         btRefresh.setOnClickListener {
             presenter.refreshData()
         }
-
     }
 
     override fun showInfo(city: String, temperature: String) {
@@ -37,6 +35,17 @@ class WeatherFragment : BaseFragment(), IWeatherView {
             tvCity.text = city
             tvInfo.text = temperature
         } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun loadImage(path: String?) {
+        try {
+            Picasso.get()
+                .load(path)
+                .into(ivIcon)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

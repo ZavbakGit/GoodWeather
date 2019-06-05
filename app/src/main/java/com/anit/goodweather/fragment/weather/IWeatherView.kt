@@ -5,4 +5,5 @@ import android.content.Context
 interface IWeatherView{
     fun showInfo(city:String,temperature:String)
     fun getContext():Context
+    fun loadImage(path:String?)
 }
