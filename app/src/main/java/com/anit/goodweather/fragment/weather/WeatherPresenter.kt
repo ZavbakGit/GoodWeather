@@ -1,20 +1,26 @@
 package com.anit.goodweather.fragment.weather
 
 
+import android.content.Context
 import android.preference.PreferenceManager
 import com.anit.goodweather.R
+import com.anit.goodweather.repository.database.DatabaseHelper
+import com.anit.goodweather.repository.database.entites.CityItem
 import com.anit.goodweather.repository.rest.entites.WeatherRequestRestModel
 import com.anit.goodweather.repository.rest.request.OpenWeatherRepo
 
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
-class WeatherPresenter(val view: IWeatherView) {
+class WeatherPresenter(val view: IWeatherView, appContext: Context) {
 
     companion object {
         const val KEY_CITY = "pref_city"
     }
+
+    val database = DatabaseHelper(appContext)
 
     var city: String? = null
         set(value) {
@@ -47,6 +53,20 @@ class WeatherPresenter(val view: IWeatherView) {
                         } else {
                             view.loadImage(null)
                         }
+
+                        //Добавляем в SQlite
+                        database.addCityIem(
+                            CityItem(
+                                city = city?:"",
+                                date = Date(),
+                                icon = icon?:"",
+                                temperature = model.main?.temp ?: 0f
+                            )
+                        )
+
+                        //Меняем список адаптера
+                        view.setAdapterAutoComplete(database.getListCity())
+
                     } else {
                         view.showInfo(city!!, "error")
                         view.loadImage(null)

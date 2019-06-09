@@ -2,32 +2,57 @@ package com.anit.goodweather.fragment.weather
 
 
 import android.content.Context
+import android.widget.ArrayAdapter
 import com.anit.goodweather.R
 import com.anit.goodweather.fragment.BaseFragment
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.weather_fragment.*
 
+
 class WeatherFragment : BaseFragment(), IWeatherView {
+
 
     companion object {
         const val TAG = "WeatherFragment"
         fun newInstance() = WeatherFragment()
     }
 
-    private val presenter = WeatherPresenter(this)
+    private lateinit var presenter: WeatherPresenter
 
     override fun onResume() {
         super.onResume()
+
+        presenter = WeatherPresenter(this, activity!!.applicationContext)
+
         presenter.readPreference()
         btAddCity.setOnClickListener {
-            if (!edCity.text.toString().isBlank()) {
-                presenter.city = edCity.text.toString()
-                edCity.text.clear()
+            if (!actvCity.text.toString().isBlank()) {
+                presenter.city = actvCity.text.toString()
+                actvCity.text.clear()
             }
         }
+
         btRefresh.setOnClickListener {
             presenter.refreshData()
         }
+
+        actvCity.setOnItemClickListener { _, _, _, _ ->
+            presenter.city = actvCity.text.toString()
+            actvCity.text.clear()
+            presenter.refreshData()
+        }
+    }
+
+    override fun setAdapterAutoComplete(list: List<String>) {
+        activity?.let {
+            val adapter = ArrayAdapter<String>(
+                activity as Context,
+                R.layout.support_simple_spinner_dropdown_item,
+                list
+            )
+            actvCity.setAdapter<ArrayAdapter<String>>(adapter)
+        }
+
     }
 
     override fun showInfo(city: String, temperature: String) {
