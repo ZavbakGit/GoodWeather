@@ -8,4 +8,25 @@
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
     <string name="action_add">Add</string>
+    <string name="text_about">О разработчике</string>
+    <string name="text_button_send">Send</string>
+    <string name="hint_message">Message</string>
+    <string name="text_weather">Weather</string>
+    <string name="weather">Weather</string>
+    <string name="feedback">Feedback</string>
+    <string name="about">About</string>
+    <string name="sensor">Sensor</string>
+    <string name="sensor_name">sensor name</string>
+    <string name="sensor_data">sensor data</string>
+    <string name="light">Light</string>
+    <string name="temperature">Temperature</string>
+    <string name="humidity">Humidity</string>
+    <string name="not_found">Not found sensor</string>
+    <string name="click_me">Click Me</string>
+    <string name="change">Change</string>
+    <string name="refresh">Refresh</string>
+    <string name="default_city">Khabarovsk</string>
+    <string name="city">City</string>
+    <string name="error">Error</string>
+    <string name="icon">icon</string>
 </resources>

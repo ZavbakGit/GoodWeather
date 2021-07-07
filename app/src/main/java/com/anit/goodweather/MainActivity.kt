@@ -1,25 +1,25 @@
 package com.anit.goodweather
 
+import android.annotation.SuppressLint
+
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
-import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     SearchView.OnQueryTextListener {
 
-    val router:Router = IRouter(this,R.id.container_fragment)
+    private val router: IRouter = Router(this, R.id.container_fragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +40,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
     }
 
-    override fun onStart() {
-        super.onStart()
+
+    override fun onResume() {
+        super.onResume()
         router.startWeather()
-        onNavigationItemSelected(nav_view.menu.getItem(1))
+        nav_view.setCheckedItem(nav_view.menu.getItem(0))
     }
 
     override fun onBackPressed() {
@@ -58,8 +59,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
 
-        var searchItem = menu.findItem(R.id.action_search)
-        var searchView = MenuItemCompat.getActionView(searchItem) as SearchView
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
 
         searchView.setOnQueryTextListener(this)
 
@@ -67,46 +68,54 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
-        Toast.makeText(this,"Click search $query",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Click search $query", Toast.LENGTH_SHORT).show()
         return false
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
-        Toast.makeText(this,"search: $newText",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "search: $newText", Toast.LENGTH_SHORT).show()
         return false
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
             R.id.action_search -> {
                 Snackbar.make(fab, "Action search", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
-                return true
+                true
             }
             R.id.action_add -> {
                 Snackbar.make(fab, "Action add", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
-    }
 
+
+    @SuppressLint("RestrictedApi")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_weather -> {
                 router.startWeather()
+                fab.visibility = View.VISIBLE
             }
             R.id.nav_feedback -> {
                 router.startFeedback()
+                fab.visibility = View.GONE
+            }
+            R.id.nav_sensor -> {
+                router.startSensor()
+                fab.visibility = View.GONE
             }
             R.id.nav_about -> {
                 router.startAbout()
+                fab.visibility = View.GONE
             }
         }
 
         item.isChecked = true
-        title = item.getTitle()
+        title = item.title
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TransformCustomView">
+        <attr name="cv_Color" format="color" />
+        <attr name="cv_StrokeWidth" format="integer" />
+    </declare-styleable>
+</resources>
